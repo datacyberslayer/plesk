@@ -12,10 +12,10 @@
 #O MESMO DEVE SER AJUSTADO NA CONDIÇÃO #PREPARA LISTA (NOT LIKE)
 #----------------------------------------------------------------------------------------------------
 #REF : https://kb.resellerclub.com/article/Understanding-the-logs-Linux-Plesk-Panel-Logs-and-Locations
-#Valide as permissoes de diretorio para nao ficar exposto na internet ex: rwx r-x r-- 
+#Valide as permissões de diretório para nao ficar exposto na internet ex: rwx r-x r-- 
 
 #Variaveis
-DESTINO="/var/www/vhosts/vrgfak.hospedagemweb.net/httpdocs/backup/BKP_CLIENTES/"
+DESTINO="/var/www/vhosts/seudominiodebackup.com.br/httpdocs/backup/BKP_CLIENTES/"
 TEMP="/usr/local/psa/PMM/sessions/"
 #LIMPA DIRETORIO DE DESTINO E NA SESSIONS PLESK  *REMOVE QUALQUER COISA NO DESTINO
 
@@ -27,7 +27,7 @@ echo "Iniciando a limpeza de espaço temp e destino" $(date +%F_%H:%M:%S)
 echo "Limpeza concluida" $(date +%F_%H:%M:%S)
 
 #PREPARA LISTA DO BANCO EXCETO QUALQUER DOMAIN HOSPEDAGEMWEB.NET # comente a linha abaixo e crie um domain no arquivo para validar a rotina
- /sbin/plesk db -Ne "select name  from  domains where name NOT LIKE '%hospedagemweb.net%'" > domains.txt
+ /sbin/plesk db -Ne "select name  from  domains where name NOT LIKE '%seudominiodebackup.com.br%'" > domains.txt
 
 echo "Atualizada a lista de dominios para backup  com sucesso!" $(date +%F_%H:%M:%S)
 
@@ -39,7 +39,7 @@ do
 dusage=$(df -Ph | grep -vE '^tmpfs|cdrom' | sed s/%//g | awk '{ if($5 > 92) print $0;}')
 fscount=$(echo "$dusage" | wc -l)
 if [ $fscount -ge 2 ]; then
-echo "operacao cancelada para evitar que o disco exploda! kabum!"
+echo "Operação cancelada para evitar que o disco lote! Kabum!"
 exit
 else
 
@@ -57,7 +57,7 @@ echo "Iniciado a remoção de arquivos temporarios"  $(date +%F_%H:%M:%S)
  rm -rf $TEMP*
 
 #Inserindo permissão para baixar #check e altere conforme permissão do destino
-#chown "exgohs.hospedagemweb_o58l7s5eblj:psacln"
+#chown "exgohs.PERMISSAO_o58l7s5eblj:psacln"
 
 #Geral todos zip em unico arquivo
 echo "Iniciando compactação .zip de todos arquivos para um unico arquivo"
@@ -72,7 +72,7 @@ echo "Finalizando arquivo unico"
  mv /root/backupgeral.zip $DESTINO
 
 #Inserindo permissão para baixar #check e altere conforme permissão do destino
-#chown "exgohs.hospedagemweb_o58l7s5eblj:psacln"
+#chown "exgohs.PERMISSAO_o58l7s5eblj:psacln"
 
  chown -R admini.psaserv $DESTINO*
 
